@@ -57,6 +57,10 @@
             </div>
         </div>
     </div>
+
+    
+
+    
 </template>
 
 <script>
@@ -72,6 +76,7 @@ import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import {mapStores} from 'pinia'
 import {cartStore} from '@/storage/cart'
+import { Toast } from "bootstrap";
 export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
@@ -121,6 +126,13 @@ export default {
         this.countries = CountryService.data;
     },
     methods: {
+
+        showToast() {
+            const toastEl = document.getElementById("liveToast");
+            const toast = new Toast(toastEl);
+            toast.show();
+        },
+
         handleSubmit(isFormValid) {
             this.submitted = true;
 

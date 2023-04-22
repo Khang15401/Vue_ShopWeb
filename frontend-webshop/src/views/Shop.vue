@@ -58,7 +58,8 @@
                 icon="pi pi-shopping-cart"
                 label="Add to Cart"
                 :disabled="slotProps.data.inventoryStatus === 'OUTOFSTOCK'"
-                @click="addItem(slotProps.data)"
+
+                @click="addItem(slotProps.data), show()"
                  v-if="this.cartStore.checkQuantityItems(slotProps.data) < slotProps.data.quantity"
               >
               </Button>
@@ -123,7 +124,7 @@
         </div>
       </template>
     </DataView>
-
+    <Toast/>
     
   </div>
   
@@ -140,8 +141,28 @@ import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import { mapStores } from 'pinia';
 import { cartStore } from "@/storage/cart"
 import Service from "@/services/axios.service";
+import { useToast } from 'primevue/usetoast';
+// import { Toast } from "bootstrap";
+
 
 export default {
+  setup() {
+    const toast = useToast();
+
+    const show = () => {
+      toast.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Add to cart successfully',
+        life: 3000,
+      });
+    };
+    return {
+      toast,
+      show,
+    };
+  },
+
  props : {
     items : { type: String , required : false}
   },
@@ -197,6 +218,11 @@ export default {
      
   methods: {
     // ...mapActions(cartStore, ['addItems']),
+    // showToast() {
+    //     const toastEl = document.getElementById("liveToast");
+    //     const toast = new Toast(toastEl);
+    //     toast.show();
+    //   },
     
     onSortChange(event) {
       const value = event.value.value;
@@ -225,6 +251,7 @@ export default {
       }
       this.quantityCart++;
       this.cartStore.adjustItems(item , true);
+      // this.showToast();
     },
     async retrieveItems() {
       try {
@@ -269,6 +296,7 @@ export default {
 .product-name {
   font-size: 1.5rem;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .product-description {
