@@ -80,6 +80,11 @@
                 <small class="p-error" v-if="submitted && !product.code">ID is required.</small>
             </div>
             <div class="field">
+                <label for="name">Rating</label>
+                <InputText id="name" v-model="product.rating" required="true" autofocus :class="{'p-invalid': submitted && !product.rating}" />
+                <small class="p-error" v-if="submitted && !product.rating">Rating is required.</small>
+            </div>
+            <div class="field">
                 <label for="description">Description</label>
                 <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
             </div>
